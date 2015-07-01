@@ -1,6 +1,7 @@
 #!/bin/bash -eux
 
-if [[ $PACKER_BUILDER_TYPE =~ vmware ]]; then
+install_vmware_tools()
+{
     echo "==> Installing VMware Tools"
 
     # Uninstall fuse to fake out the vmware install so it won't try to
@@ -98,9 +99,19 @@ if [[ $PACKER_BUILDER_TYPE =~ vmware ]]; then
         /tmp/vmware-tools-distrib/vmware-install.pl -d
     fi
 
-    rm /home/vagrant/linux.iso
     umount /mnt/cdrom
     rmdir /mnt/cdrom
+}
+
+if [[ $PACKER_BUILDER_TYPE =~ vmware ]]; then
+
+    if [[ $OPEN_VM_TOOLS =~ true ]]; then
+        echo "==> Installing open-vm-tools"
+        ${PKG_MGR} -y install open-vm-tools
+    else
+        install_vmware_tools
+    fi
+    rm -f /home/vagrant/linux.iso
 fi
 
 if [[ $PACKER_BUILDER_TYPE =~ virtualbox ]]; then

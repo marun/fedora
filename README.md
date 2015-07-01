@@ -108,6 +108,10 @@ the latest OS updates will be applied.
 The variable `HEADLESS` can be set to run Packer in headless mode.
 Set `HEADLESS := true`, the default is false.
 
+The variable `OPEN_VM_TOOLS` can be set to 'true' to install
+open-vm-tools instead of building vmware guest additions.  The default
+is `false`.
+
 The variable `PACKER` can be used to set the path to the packer binary.
 The default is `packer`.
 
